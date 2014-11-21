@@ -33,9 +33,9 @@ const string trackbarWindowName = "Trackbars";
 //TODO: Filter by distance
 //Add visualizer from PCL?
 //
-
+ros::Publisher pub;
 //create hsv scaler
-
+pcl::visualization::CloudViewer viewer("cloud viewer");
 
 int H_MIN = 0;
 int H_MAX = 256;
@@ -74,23 +74,7 @@ void createTrackbars(){
 
 
 }
-class CloudFilter
-{
-	ros::Publisher pub;
-	ros::NodeHandle nh;
-	ros::Subscriber sub;
-	pcl::visualization::CloudViewer viewer("cloud viewer");
 
-public:
-	CloudFilter()
-{
-
-		// Create a ROS subscriber for the input point cloud
-		   sub  = nh.subscribe ("input", 1, &CloudFilter::cloud_cb,this);
-		   // Create a ROS publisher for the output model coefficients
-		     pub = nh.advertise<pcl_msgs::ModelCoefficients> ("output", 1);
-
-}
 void cloud_cb (const sensor_msgs::PointCloud2ConstPtr& input)
 {
     // Convert the sensor_msgs/PointCloud2 data to pcl/PointCloud
@@ -186,17 +170,25 @@ void cloud_cb (const sensor_msgs::PointCloud2ConstPtr& input)
 //    pcl_conversions::fromPCL(coefficients, ros_coefficients);
 //    pub.publish (ros_coefficients);
 }
-}
 
     int
 main (int argc, char** argv)
 {
-    	
-
+    	cv::namedWindow(OPENCV_WINDOW);
+    	  createTrackbars();
+    	    cout << "trackbars should exist" << endl;
     // Initialize ROS
     ros::init (argc, argv, "my_pcl_tutorial");
-    createTrackbars();
-    cout << "trackbars should exist" << endl;
+
+    ros::NodeHandle nh;
+
+
+    // Create a ROS subscriber for the input point cloud
+    ros::Subscriber sub = nh.subscribe ("input", 1, cloud_cb);
+
+    // Create a ROS publisher for the output model coefficients
+    pub = nh.advertise<pcl_msgs::ModelCoefficients> ("output", 1);
+
     // Spin
     ros::spin ();
     //viewer.spinOnce();

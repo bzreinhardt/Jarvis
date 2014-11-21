@@ -78,13 +78,12 @@ class CloudFilter
 {
 	ros::Publisher pub;
 	ros::NodeHandle nh;
-	ros::Subscriber sub;
-	pcl::visualization::CloudViewer viewer("cloud viewer");
+	ros::Subscriber sub
 
 public:
 	CloudFilter()
 {
-
+		pcl::visualization::CloudViewer viewer("cloud viewer");
 		// Create a ROS subscriber for the input point cloud
 		   sub  = nh.subscribe ("input", 1, &CloudFilter::cloud_cb,this);
 		   // Create a ROS publisher for the output model coefficients

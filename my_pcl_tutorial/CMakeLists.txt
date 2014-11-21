@@ -9,7 +9,7 @@ find_package(catkin REQUIRED COMPONENTS
   pcl_ros
   roscpp
   sensor_msgs
- 
+  cv_bridge 
 )
 
 ## System dependencies are found with CMake's conventions
@@ -82,10 +82,10 @@ find_package(catkin REQUIRED COMPONENTS
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-#  INCLUDE_DIRS include
-#  LIBRARIES my_pcl_tutorial
-#  CATKIN_DEPENDS pcl_conversions pcl_ros roscpp sensor_msgs
-#  DEPENDS system_lib
+  INCLUDE_DIRS include
+  LIBRARIES my_pcl_tutorial
+  CATKIN_DEPENDS pcl_conversions pcl_ros roscpp sensor_msgs
+  DEPENDS system_lib
 )
 
 ###########
@@ -101,18 +101,18 @@ include_directories(
 
 ## Declare a cpp library
 # add_library(my_pcl_tutorial
-#   src/${PROJECT_NAME}/my_pcl_tutorial.cpp
+#  src/${PROJECT_NAME}/my_pcl_tutorial.cpp
 # )
 
 ## Declare a cpp executable
- add_executable(example_planarsegmentation src/example_planarsegmentation.cpp)
+ add_executable(viewer src/viewer.cpp)
 
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
 # add_dependencies(my_pcl_tutorial_node my_pcl_tutorial_generate_messages_cpp)
 
 ## Specify libraries to link a library or executable target against
- target_link_libraries(example_planarsegmentation
+ target_link_libraries(viewer
      ${catkin_LIBRARIES} ${PCL_LIBRARIES}
  )
 
